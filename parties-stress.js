@@ -23,30 +23,50 @@ else {
 
 var partyTitles = [
     "Alive and kicking",
+    "Accelerate",
     "Beerfest",
     "Breakfast at Tiffany's",
     "Browncoats unite",
     "Burning down the House",
     "BYOB",
     "City Shag",
+    "Cloud city",
     "Das Fest",
+    "Dude, where's my car?",
     "Exterminate!",
     "Have you met Ted?",
     "House Party",
     "Kelly's Call",
+    "Kwanzaa",
     "La Boum",
+    "Lollapalooza",
     "Meet the Feebles",
     "No siesta fiesta",
+    "Out all night",
     "Party PEOPLE!!!!",
     "Risky Business",
     "Rock Da House",
     "Rockin' the Night Away",
     "Slayerfest '98",
+    "Slurms MacKenzie's Frenzy",
+    "Stan's previously owned party",
     "The more the merrier",
-    "The Party"
+    "The Party",
+    "TurboDiesel",
+    "Woo! Party!"
 ];
 
 var rsvpChoices = ["rsvp_yes", "rsvp_no", "rsvp_maybe"];
+var rsvpChoices_weight = [3, 2, 1];
+var rsvpChoices_totalWeight = eval(rsvpChoices_weight.join("+"));
+var weighedChoices=new Array() //new array to hold "weighted" fruits
+var currentChoice=0
+
+while (currentChoice<rsvpChoices.length){ //step through each fruit[] element
+for (i=0; i<rsvpChoices_weight[currentChoice]; i++)
+    weighedChoices[weighedChoices.length]=rsvpChoices[currentChoice];
+    currentChoice++;
+}
 
 // setting the options for our run
 casper.options.viewportSize = {width: 1280, height: 768};
@@ -175,7 +195,7 @@ function rsvpParty() {
         // TODO: There is still an issue with *some* Caspers but only with certain *IDs (reproducable)
         //this.echo(this.getElementsAttribute('circle', 'id').filter(function(e){return e}));
         var partyIdSelector = 'circle#' + returnRandomChoice(this.getElementsAttribute('circle', 'id').filter(function(e){return e}));
-        var rsvpSelector = '.' + returnRandomChoice(rsvpChoices);
+        var rsvpSelector = '.' + returnRandomChoice(weighedChoices);
         this.echo('For ' + partyIdSelector + ' I will ' + rsvpSelector)
         casper.waitForSelector(partyIdSelector, function () {
             this.click(partyIdSelector);
