@@ -57,7 +57,7 @@ var partyTitles = [
 ];
 
 var rsvpChoices = ["rsvp_yes", "rsvp_no", "rsvp_maybe"];
-var rsvpChoices_weight = [3, 2, 1];
+var rsvpChoices_weight = [5, 2, 1];
 var rsvpChoices_totalWeight = eval(rsvpChoices_weight.join("+"));
 var weighedChoices=new Array() //new array to hold "weighted" fruits
 var currentChoice=0
@@ -105,15 +105,24 @@ casper.then(function () {
 
 // CREATE A PARTY
 createParty();
+
+// RSVP TO A PARTY - 2 ACTUALLY
+rsvpParty();
 rsvpParty();
 
 // WAIT AND TAKE A PICTURE
+// ONLY WORKS WELL, IF NOT TOO MANY INSTANCES RUN IN PARALLEL
+//casper.then(function () {
+//    this.wait(1000, function () {
+//        this.capture('captures/done', undefined, {
+//            format: 'png'
+//        });
+//    });
+//});
+
 casper.then(function () {
-    this.wait(1000, function () {
-        this.capture('captures/done', undefined, {
-            format: 'png'
-        });
-    });
+    this.echo("I'm done. I quit");
+    this.exit();
 });
 
 // RUN THE CASPER
